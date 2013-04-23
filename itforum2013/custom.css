@@ -1,0 +1,22 @@
+#preso {  
+  width: 1100px;
+}
+
+
+.slide {
+  width: 1100px;
+  background-image:url('top_line.png'), url('bottom_line.png');
+  background-position: left top, left bottom;
+  background-repeat: no-repeat;
+  
+}
+
+.content {
+  color: black;
+  font-family: helvetica, arial;
+
+}
+
+h1 {
+	
+}
