@@ -92,7 +92,11 @@
 
 !SLIDE bullets incremental
 
-# Hva er klientdrift #
+# Hva er klientdrift? #
+
+* ![Deploystudio](deploystudio.png)
+* ![Puppetlabs](puppetlabs.png)
+* ![The Foreman](foreman.png)
 
 !SLIDE bullets incremental
 
@@ -122,7 +126,10 @@
 * Denne delen er lagt opp til å være brukervennlig, next-next-finish
 * På sikt kan vi i teorien åpne for at brukerene installerer klientdrift på maskinene selv
 * Problemer med DHCP og Netboot må løses først
-* BILDE AV DHCP NETBOOT TEIT HER
+
+!SLIDE bullets incremental
+
+![Netboot Bonanza](netboot_bonanza.jpg)
 
 !SLIDE bullets incremental
 
@@ -214,8 +221,16 @@ Eksempel på programvare er
 
 !SLIDE bullets incremental
 
-* 1
-* 2
+* Ny platform krever ny kunnskap
+* for brukerene,
+* og for brukersøtten
+
+!SLIDE bullets incremental
+
+* Vi har samlet mesteparten av kunnskap i BRITA - Spesialistgruppe
+* Det jobbes fortløpende med dokumentasjon på IT-Hjelp
+* Det jobbes med forbedret søk i dokumentasjon på IT-Hjelp
+* Intern opplæring er et viktig verktøy for å øke kunnskapen på generalistnivå
 
 !SLIDE bullets incremental
 
