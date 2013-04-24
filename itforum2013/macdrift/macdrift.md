@@ -224,13 +224,14 @@ Eksempel på programvare er
 * Ny platform krever ny kunnskap
 * for brukerene,
 * og for brukersøtten
+* Vi må ha en plan
 
 !SLIDE bullets incremental
 
-* Vi har samlet mesteparten av kunnskap i BRITA - Spesialistgruppe
+* Vi har samlet mesteparten av kunnskap i BRITA - Spesialistgruppen
 * Det jobbes fortløpende med dokumentasjon på IT-Hjelp
 * Det jobbes med forbedret søk i dokumentasjon på IT-Hjelp
-* Intern opplæring er et viktig verktøy for å øke kunnskapen på generalistnivå
+* Intern opplæring er en viktig strategi for å øke kunnskapen på generalistnivå
 
 !SLIDE bullets incremental
 
