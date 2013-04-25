@@ -8,6 +8,15 @@
 .notes Presentasjonens forside
 
 !SLIDE bullets incremental
+* Hvor vi var for et år siden
+
+* ![Ubuntu VS Fedora](ubuntu_vs_fedora.png)
+
+!SLIDE bullets
+
+* ![Mac OSX](macosx_2.jpg)
+
+!SLIDE bullets incremental
 
 # Presentasjon av presentasjonen #
 * Jeg vil gå igjennom hvor vi er nå, og litt om hva vi tenker videre fremover.
@@ -93,7 +102,6 @@
 !SLIDE bullets incremental
 
 # Hva er klientdrift? #
-
 * ![Deploystudio](deploystudio.png)
 * ![Puppetlabs](puppetlabs.png)
 * ![The Foreman](foreman.png)
@@ -105,25 +113,64 @@
 * Overvåking / Monitorering
 * Videreutvikling av klientdrift
 * Opplæring og dokumentasjon
-* Annet
 
 !SLIDE bullets incremental
 
 ## Imaging ved hjelp av Deploystudio
 
-!SLIDE bullets incremental
+!SLIDE bullets
 
 * To Deploystudioservere, 1 i NG og 1 i AG
-* DHCP netbooter mot deploystudioservere
+
+![Deploystudio server](deploystudio_server.jpg)
+
+!SLIDE bullets
 * Et image for testing og et for produksjon
-* Vi får baseimager fra UiO, sparer oss mye arbeid
-* Installerer «management-programvare», puppet og munki, samt binder mot AD
-* Deploystudio er workflow basert
-* BILDE AV DS INNLOGGING + DS WORKFLOW SELECTOR
+
+![Deploystudio images](netboot_images.jpg)
+
+!SLIDE bullets
+* DHCP netbooter mot deploystudioservere
+
+![Deploystudio netboot](ds_1_netboot.png)
 
 !SLIDE bullets incremental
 
-* Denne delen er lagt opp til å være brukervennlig, next-next-finish
+* Vi får baseimager fra UiO, sparer oss mye arbeid
+
+!SLIDE bullets
+* Deploystudio er workflow basert
+
+![Deploystudio netboot](ds_3_velg_workflow.png)
+
+!SLIDE bullets
+* Installerer Munki for programvareadministrasjon
+
+![Installerer Munki](ds_7_installlere_munki.png)
+
+!SLIDE bullets
+* Installerer Puppet for konfigurasjonsmanagement
+
+![Installerer Puppet](ds_9_installere_puppet.png)
+
+!SLIDE bullets
+* Binder mot AD
+
+![Binder mot AD](ds_6_ad_binding.png)
+
+!SLIDE bullets
+* Installerer root / admin bruker,
+ 
+![Installerer admin](ds_10_installere_admin.png)
+
+!SLIDE bullets
+* Ferdig
+ 
+![Ferdig](ds_15_ferdig.png)
+
+!SLIDE bullets incremental
+
+* Denne delen er altså lagt opp til å være brukervennlig, next-next-finish
 * På sikt kan vi i teorien åpne for at brukerene installerer klientdrift på maskinene selv
 * Problemer med DHCP og Netboot må løses først
 
@@ -138,6 +185,19 @@
 !SLIDE bullets incremental
 
 * Puppet og The Foreman sørger for at konfigurasjon blir installert
+
+!SLIDE bullets
+* The Foreman lar oss konfigurere noden
+
+![Foreman hostlist](foreman_hostdetails.png)
+
+!SLIDE bullets
+* The Foreman gir oss mulighet til å klassifisere noder
+
+![Foreman hostlist](foreman_hostgroups.png)
+
+!SLIDE bullets incremental
+
 * Når dette er gjort vil Munki vite hvilken programmer som skal installeres
 * Konfigurasjon kan avhenge av institutt
 * Bruker samme infrastruktur som Linux klienter og servere
@@ -160,6 +220,11 @@ Eksempel på programvare er
 * Skriverdrivere
 * +++
 
+!SLIDE bullets
+* Munki gir mulighet for self-service på programvare
+
+![Munki alternativer](munki_alternativer.png)
+
 !SLIDE bullets incremental
 
 * Det er et mål i seg selv å ikke låse ned enheten
@@ -177,9 +242,14 @@ Eksempel på programvare er
 * Hvem har fått konfigurasjonsoppdateringer
 * Er det lenge siden enhetene har vært på UiB nett
 
+!SLIDE bullets
+* The Foreman gis oss oversikten
+
+![Foreman hostlist](foreman_hostlist.png)
+
 !SLIDE bullets incremental 
 
-* The Foreman viser oss et oversiktsbilde over hvilken enheter som har hvilken konfigurasjon
+* Vi får et oversiktsbilde over tingenes tilstand
 * På sikt implementering av logging mot felles loggmottak (Logstash)
 * Dette vil gi mulighet for bedre monitorering / status
 
@@ -223,7 +293,7 @@ Eksempel på programvare er
 
 * Ny platform krever ny kunnskap
 * for brukerene,
-* og for brukersøtten
+* og for brukerstøtten
 * Vi må ha en plan
 
 !SLIDE bullets incremental
@@ -232,24 +302,6 @@ Eksempel på programvare er
 * Det jobbes fortløpende med dokumentasjon på IT-Hjelp
 * Det jobbes med forbedret søk i dokumentasjon på IT-Hjelp
 * Intern opplæring er en viktig strategi for å øke kunnskapen på generalistnivå
-
-!SLIDE bullets incremental
-
-## Annet
-
-!SLIDE bullets incremental
-
-* 1
-* 2
-
-!SLIDE bullets incremental
-
-# Eksempler
-
-!SLIDE bullets incremental
-
-* Eksempel 1
-* Eksempel 2
 
 !SLIDE bullets incremental
 
