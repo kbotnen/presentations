@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="author" content="Jan Ivar Beddari">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<style type="text/css">
+			html {
+				background: #111111;
+				background-color: #111111; }
+		</style>
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="../css/night.css" id="theme">
+		<link rel="stylesheet" href="../css/main.css">
+
+		<!-- Fullscreen images -->
+		<link rel="stylesheet" href="fullscreen-img.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../css/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../lib/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section data-markdown data-separator="\n!SLIDE\n" data-vertical="\n!SLIDEDOWN\n"><script type="text/template">
+# Ikke test Puppet-koden din!
+_Oslo Puppet Meetup_
+!SLIDE
+## [@beddari](https://twitter.com/beddari)
+på Twitter eller Freenode
+!SLIDE
+# 1. Status
+Hva kan vi om testing av infrastruktur-kode?
+!SLIDE
+## _Vi skiller kodemiljøene fra hverandre_
+Kanskje en branch, deretter dev, test, qa før prod
+!SLIDE
+## _Vi itererer raskt i dev-miljøet_
+Vagrant, VMware, OpenStack, LXC/Docker
+!SLIDE
+## _Vi validerer syntaks og kodestil automatisk_
+Integrert med versjonskontroll og CI
+!SLIDE
+## _Vi kjører unit- og integrasjonstesting_
+Modules/cookbooks/bundles er kodekomponenter
+!SLIDE
+_Hmm .. gjør vi egentlig det?_
+!SLIDE
+## _Vi overvåker og måler infrastrukturen_
+!SLIDE
+## _Vi overvåker og måler <del><span style='color:grey;'>infrastrukturen</span></del> tjenestene_
+!SLIDE
+_OK, men det gjør vi jo? Det gjør vel alle?_
+!SLIDE
+_- Ja, i prod!_
+</script>
+</section>
+<section fullscreen-img="i_dont_see.png" fullscreen-size="contain">
+</section>
+<section data-markdown data-separator="\n!SLIDE\n" data-vertical="\n!SLIDEDOWN\n"><script type="text/template">
+# 2. Hva er egentlig infrastruktur-kode?
+Ikke ditt typiske utviklingsprosjekt, nei 
+!SLIDE
+## _Det egentlige artifaktet er et dynamisk system!_
+Start-tilstanden vil ofte være ukjent
+!SLIDE
+## _Kjøring av koden har flere inputs enn dine!_
+Ikke anta for mye om miljøet
+!SLIDE
+## _Koden beskriver en tilstand!_
+Dersom tilstandsbeskrivelsen er korrekt, hva er igjen å teste?
+!SLIDE
+## _Tradisjonell testing treffer ikke godt nok!_
+Unit- og integrasjonstester gir mindre gevinst 
+!SLIDE
+# 3. Test-pyramiden faller?
+.. eller hvorfor infra-kodere liker iskrem
+!SLIDE
+## _Originalen_
+
+![Original test-pyramide](pyramid_original.png)
+
+Mike Cohn, [Succeeding with Agile](http://www.amazon.com/gp/product/0321579364?ie=UTF8&tag=martinfowlerc-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0321579364) (2009)
+!SLIDE
+## Pyramiden 2.0
+
+![Clean coder-pyramiden](pyramid_clean_coder.jpg)
+
+Robert C. Martin, [The Clean Coder](http://my.safaribooksonline.com/book/programming/9780132542913/testing-strategies/ch08lev1sec2) (2011)
+!SLIDE
+![Ice cream cone](ice_cream_cone.png)
+</script>
+</section>
+<section fullscreen-img="low_fruit.jpg" fullscreen-size="contain">
+</section>
+<section data-markdown data-separator="\n!SLIDE\n" data-vertical="\n!SLIDEDOWN\n"><script type="text/template">
+# 4. Løsninger?
+Endeling kan vi snakke om verktøy!
+!SLIDE
+  * [Serverspec](http://serverspec.org) og [mspectator](https://github.com/raphink/mspectator)
+  * [rspec-system](https://github.com/puppetlabs/rspec-system)
+!SLIDE
+## Serverspec
+Verktøy og bibliotek for utside-inn testing av server-infrastruktur
+!SLIDE
+@beddari tidlig i 2013:
+
+## Hurra!
+Dette er jo enn veldig veldig VELDIG god ide!
+!SLIDE
+### _Alle kan skrive tester med serverspec_
+* Ops? Det er bare bash med en wrapper rundt!
+* Dev? Det er rspec, du kan jo det/lærer det lett!
+!SLIDE
+### Både et verktøy i seg selv og et bibliotek
+Ferdig util for å kjøre tester via Vagrant og SSH
+!SLIDE
+### _Vi vil se kode!_
+```
+[root@localhost serverspec-eksempel]# tree
+.
+├── Rakefile
+└── spec
+    ├── centos64
+    │   └── httpd_spec.rb
+    └── spec_helper.rb
+```
+!SLIDE
+### _Mulighet for en gjenbrukbar testbase!!_
+På kryss av ansvar og bakgrunn
+!SLIDE
+### _Er alt bare fryd .._
+  Nei, prosjektet har utfordringer rundt beskrivelse av flere noder og .. syntaks!
+!SLIDE
+### Ideer til implementasjon ... tenkehatten på!
+  * Testene bør skrives av andre
+  * Vi kan hente data fra ikke-kodet-infrastruktur, typisk storage, nettverk
+  * Benytte testene i hele kjeden helt fra dev til prod
+  * Testing blir en form for overvåkning? WIN!
+!SLIDE
+## mspectator
+Fullt ut integrert infrastruktur-testing med Mcollective av Raphaël Pinson, Camp2camp
+!SLIDE
+### _mspectator kan benytte mcollective-filter_
+Løser problemet med at serverspec knytter testene mot FQDN
+!SLIDE
+```
+require 'mspectator'
+
+describe "apache::server" do
+  it { should find_nodes(10).or_less.with_agent('spec') }
+  it { should have_certificate.signed }
+  it { should pass_puppet_spec }
+
+  context "when on Debian", :facts => [:operatingsystem => "Debian"] do
+    it { should find_nodes(5).or_more }
+    it { should have_service('apache2').with(
+      :ensure => 'running',
+      :enable => 'true'
+      )
+    }
+    it { should have_package('apache2') }
+    it { should have_user('www-data') }
+  end
+end
+```
+_<font size="-1">.. also, since I installed mcollective, I lost 5kg, I can see in the dark and cook without using my hands</font>_
+!SLIDE
+### _Arkitekturen er mer komplisert_
+  * En må naturlig nok ha mcollective ...
+  * Testene må deployes til nodene som skal kjøre de
+  * Taper noe av elegansen, vinner i utbytte!
+!SLIDE
+## rspec-system
+Et undercover Puppetlabs-prosjekt av Ken Barber
+!SLIDE
+### Mange av de samme tankene
+  * Testing av systemer og gjerne større sett av noder sammen
+  * SSH som default-transport
+  * Vurderer å ta i bruk serverspec som lib
+!SLIDE
+# 5. Referanser og linker
+!SLIDE
+_Tekster_
+
+  * The Clean Coder: A Code of Conduct for Professional Programmers ([Book][tcc])
+  * [Sean OMeara][someara]: Promises, Lies and Dry-Run Mode ([Blog][pld])
+  * [Andrew Crump][acrmp]: Testing your infrastructure ([Blog][tyi])
+  * [Ranjib Dey][ranjib]: Automated infrastructure testing ([Slides][ait])
+  * [Will Farrington][wfarr]: Puppet at GitHub ([Video][pagv]|[Slides][pags])
+  * [Jan Vansteenkiste][vstone]: Puppet module testing ([Slides][pmt])
+
+<br>_Kode_
+
+  * [Fizzgig](https://github.com/philandstuff/fizzgig) Tools for writing fast unit tests for puppet
+  * [Test Kitchen](https://github.com/opscode/test-kitchen) Framework for running integration tests in an isolated environment
+
+[acrmp]:    https://twitter.com/acrmp
+[someara]:  https://twitter.com/someara
+[wfarr]:    https://twitter.com/wfarr
+[vstone]:   https://twitter.com/Jan_vStone
+[bobtfish]: https://twitter.com/bobtfish
+[ranjib]:   https://twitter.com/RanjibDey
+
+[tyi]:  http://www.opscode.com/blog/2012/07/20/on-the-level-testing-your-infrastructure/
+[ait]:  http://www.slideshare.net/bhumika2108/automated-infrastructure-testing-by-ranjib-dey
+[pld]:  http://blog.afistfulofservers.net/post/2012/12/21/promises-lies-and-dryrun-mode/
+[pags]: http://www.slideshare.net/PuppetLabs/puppet-at-github-21275718
+[pagv]: http://www.youtube.com/watch?v=wkKnP048vvo
+[tcc]:  http://my.safaribooksonline.com/book/programming/9780132542913
+[pmt]:  http://vstone.eu/talks/puppet-module-testing
+
+!SLIDE
+# Hire me!
+[no.linkedin.com/in/beddari](http://no.linkedin.com/in/beddari)
+</script></section>
+
+</div>
+
+		</div>
+
+		<script src="../lib/head.min.js"></script>
+		<script src="../lib/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../lib/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../lib/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../lib/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../lib/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'fullscreen-img.js' }
+				]
+			});
+
+		</script>
+
+        <script src="http://localhost:35729/livereload.js"></script>
+
+	</body>
+</html>
