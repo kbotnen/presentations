@@ -105,6 +105,12 @@ print_manage_printers_partially: false
 print_manage_config:             true
 print_manage_configfilename:     legacy_cupsd.conf.linux.erb				 	  
 					</pre>
+				</section>
+				<section>
+					<h3>Puppet is the glue</h3>
+						<a class="fragment" class="image">
+							<img src="./pictures/multipurpose-glues-1.jpg" alt="Puppet is the glue">
+						</a>
 				</section>			
 				<section>
 					<h3>How it works?</h3>
@@ -156,6 +162,7 @@ print_manage_configfilename:     legacy_cupsd.conf.linux.erb
 						  }
 					</pre>
 					<h3 class="fragment">will probably work on mac, FreeBSD and various Linux flavors</h3>
+					<p class="fragment">puppet is also used on windows and openbsd</p>
 				</section>				
 				
 				<section>
@@ -176,6 +183,8 @@ print_manage_configfilename:     legacy_cupsd.conf.linux.erb
 						<li class="fragment">foreman and redmine appstack</li>
 						<li class="fragment">galicaster for DigUIB</li>
 						<li class="fragment">crypt, munki, cups, ha-proxy, +++</li>
+						<li class="fragment">app developers write puppetmodules and submit to QA</li>
+						<li class="fragment">... and hopefully it makes it to production</li>
 					</ul>
 				</section>
 				<section>
