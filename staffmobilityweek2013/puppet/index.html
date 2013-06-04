@@ -37,102 +37,97 @@
 				<section>
 					<h3>A brief history</h3>
 					<ul>
-						<li class="fragment">ssh looping</li>
+						<li class="fragment">ssh looping as a configuration tool</li>
 						<li class="fragment">closed source, high cost software from a big vendor</li>
-					</ul>
-				</section>
-				<section>
-					<ul>
-						<li class="fragment">define desired state for your infrastructure</li>
-						<li class="fragment">configuration is code which accomodate versioncontrol</li>
-						<li class="fragment">Open Source, Community</li>
+						<li class="fragment">no central repository for configuration items</li>"
 					</ul>
 				</section>
 				<section>
 					<h3>What is puppet?</h3>
 					<li>ruby based</li>
-				</section>
-
-				<section>
-					<h3>Why Ubuntu?</h3>
-						<p class="fragment">softwarecenter accommodate <strong>selfservice</strong> on software</p>
-						<a class="fragment" class="image">
-							<img src="./pictures/800px-Softwarecenter-oversikt.png" alt="Softwarecenter overview">
-						</a>
+					<li>three main components, puppet, facter and hiera</li>
 				</section>				
 				<section>
-					<h3>more, Why Ubuntu?</h3>
-						<p class="fragment">polkit accommodate <strong>selfservice</strong> (auth-self) on settings</p>
-						<a class="fragment" class="image">
-							<img src="./pictures/Change-configuration.png" alt="Screenconfiguration">
-						</a>
-				</section>				
-				<section>
-					<h3>even more, Why Ubuntu?</h3>
-						<p class="fragment"><strong>long-term-support</strong> version available</p>
-						<a class="fragment" class="image">
-							<img src="./pictures/ubuntu_release_cycle.jpg" alt="Ubuntu release cycle">
-						</a>
-				</section>									
-				<section>
-					<h3>last one, Why Ubuntu?</h3>
-						<p class="fragment">it is considered one of the more <strong>user-friendly</strong> distros available</p>
-						<a class="fragment" class="image">
-							<img src="./pictures/Ubuntu-LTS-Banner.jpg" alt="Softwarecenter overview">
-						</a>
-				</section>				
-				<section>
-						<a class="fragment" class="image">
-							<img src="./pictures/macosx-ubuntu.png" alt="Macosx and Ubuntu">
-						</a>
-				</section>
-				
-				<section>
-					<h3>Macosx brief introduction</h3>
+					<h3>How it works?</h3>
 					<ul>
-						<li class="fragment">not well-suited for mass deployment</li>
-						<li class="fragment">vendor driven upgradepath, yearly releases</li>
-						<li class="fragment">comes with os preinstalled</li>
+						<li class="fragment">define desired state for your infrastructure</li>
+						<li class="fragment">configuration is code which accomodate versioncontrol</li>
+						<li class="fragment">open source, community</li>
 					</ul>
 				</section>
 				<section>
-						<a class="fragment" class="image">
-							<img src="./pictures/why.jpg" alt="Why">
-						</a>
-				</section>
-				<section>
-					<h3>Automation is the key</h3>
+					<h3>Puppet modules</h3>
 					<ul>
-						<li class="fragment">manual work is now automated, which saves time</li>
-						<li class="fragment">standardized config management, hopefully less error prone</li>
-						<li class="fragment">configuration is under versioncontroll, allows faster rollback if needed</li>
+						<li class="fragment">a lot of modules are available from puppetlabs and the community</li>
+						<li class="fragment">not all modules are of good quality</li>
+						<li class="fragment">written in a declarative "ruby-like" language</li>
+						<li class="fragment">allows inline ruby</li>
 					</ul>
 				</section>
 				<section>
-						<a class="fragment" class="image">
-							<img src="./pictures/automation.jpg" alt="Automation">
-						</a>
-				</section>
-				<section>
-					<h3>Shared infrastructure</h3>
+					<h3>Module development at UIB</h3>
 					<ul>
-						<li class="fragment">Linux and Mac clients deploys from the same infrastructure</li>
-						<li class="fragment">Linux and Mac clients use the same configuration code</li>
+						<li class="fragment">foreman and redmine appstack</li>
+						<li class="fragment">galicaster for DigUIB</li>
+						<li class="fragment">crypt, munki, cups, ha-proxy, +++</li>
 					</ul>
 				</section>
 				<section>
-					<h3>Our toolbox</h3>
-						<a class="fragment" class="image">
-							<img src="./pictures/toolbox.png" alt="Toolbox">
-						</a>
+					<h3>Example of module use, Foreman server </h3>
+					<pre>
+							1	node 'aserver.uib.no' {
+							2 	  class { 'platform::el6::base':
+							3 	    env  => 'prod'
+							4 	  }
+							5 	
+							6 	  class { 'app::web::foreman':
+							7 	    service_name => 'foremangui.uib.no',
+							8 	    backend => pgsql,
+							9 	    ssl_host => $::fqdn
+							10 	  }
+							11 	}
+					</pre>
 				</section>
-	
 				<section>
-					<h3>More about our toolbox later today</h3>
+					<h3>Puppet infrastructure at UIB</h3>
 					<ul>
-						<li class="fragment">A brief introduction on puppet, an opensource configmanagement tool</li>
-						<li class="fragment">A brief introduction on the foreman, an opensource node classifier</li>
-						<li class="fragment">A brief introduction on mcollective, an opensource orchestration tool</li>
+						<li class="fragment">6 puppetmasters, dev test and production</li>
+						<li class="fragment">4 external node classifiers (foreman), test and production</li>
+						<li class="fragment">servermachines and clientmachines are separated</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Node classification</h3>
+					<ul>
+						<li class="fragment">Foreman makes it easy to classify new nodes</li>
+						<li class="fragment">We classify into group based on faculty, dept</li>
+						<li class="fragment">Configuration items (i.e packages) are tied to groups</li>
+					</ul>
+				</section>				
+				<section>
+					<h3>Foreman list all managed hosts</h3>
+						<a class="fragment" class="image">
+							<img src="./pictures/foreman_hostlist.png" alt="Foreman hostlist">
+						</a>
+				</section>				
+				<section>
+					<h3>Foreman list host details</h3>
+						<a class="fragment" class="image">
+							<img src="./pictures/foreman_hostdetails.png" alt="Foreman host details">
+						</a>
+				</section>		
+				<section>
+					<h3>Foreman classification into group</h3>
+						<a class="fragment" class="image">
+							<img src="./pictures/foreman_hostgroups.png" alt="Foreman hostgroups">
+						</a>
+				</section>				
+				<section>
+					<h3>Shared infrastructure, shared configuration code</h3>
+					<ul>
+						<li class="fragment">Redhat, Ubuntu and Mac deploys from the same infrastructure</li>
+						<li class="fragment">Redhat, Ubuntu and Mac use the same configuration codebase</li>
+						<li class="fragment">Redhat, Ubuntu and Mac use the same gui for classification</li>
 					</ul>
 				</section>
 				<section>
