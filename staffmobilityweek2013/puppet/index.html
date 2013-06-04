@@ -46,9 +46,66 @@
 				<section>
 					<h3>What is puppet?</h3>
 					<li class="fragment">ruby based</li>
-					<li class="fragment">three main components, puppet, facter and hiera</li>
+					<li class="fragment">three main components, Puppet, Facter and Hiera</li>
 					<li class="fragment">open source, community</li>					
-				</section>				
+				</section>
+				<section>
+					<h3>Facter discover things about the host its running on</h3>
+					<pre>
+						ac01j8wt:staffmobilityweek2013 kbotnen1$ facter
+						architecture => x86_64
+						domain => klientdrift.uib.no
+						facterversion => 1.6.12
+						fqdn => ac01j8wt.klientdrift.uib.no
+						hardwareisa => i386
+						hardwaremodel => x86_64
+						hostname => ac01j8wt
+						id => kbotnen
+						interfaces => lo0,gif0,stf0,en0,p2p0,en1
+						ipaddress => 1x.1xx.1x.1xx
+						ipaddress6 => 
+						ipaddress6_en1 => 
+						ipaddress_en1 => 1x.1xx.1x.1xx
+						ipaddress_lo0 => 127.0.0.1
+						...
+						is_virtual => false
+						kernel => Darwin
+						swapfree => 745.09M
+						swapsize => 4096.00M
+						timezone => CEST
+						uptime => 10 days
+						uptime_days => 10
+						uptime_hours => 257
+						uptime_seconds => 926978
+						virtual => physical
+						ac01j8wt:staffmobilityweek2013 kbo041$						
+						
+					</pre>
+				</section>
+				<section>
+					<h3>Hiera is external variable lookups</h3>
+					<pre>
+packages:
+  augeas-lenses:            { ensure: installed }
+  augeas-tools:             { ensure: installed }
+  chromium-browser:         { ensure: installed }
+apt_sources:
+  puppetlabs:
+    location:    http://apt.puppetlabs.com/
+    release:     precise
+    include_src: false
+pklocalauthority_aptadmin:   admin
+pklocalauthority_aptmanager: ansatt	
+updateconfig_packageblacklist:
+  - puppet
+  - facter
+  - vim-puppet
+print_manage_printers:           false
+print_manage_printers_partially: false
+print_manage_config:             true
+print_manage_configfilename:     legacy_cupsd.conf.linux.erb				 	  
+					</pre>
+				</section>			
 				<section>
 					<h3>How it works?</h3>
 					<ul>
@@ -98,13 +155,13 @@
 						    status          =>  'present',
 						  }
 					</pre>
-					<h3 class="fragment">will probably work on mac, freebsd, and various linux flavors</h3>
+					<h3 class="fragment">will probably work on mac, FreeBSD and various Linux flavors</h3>
 				</section>				
 				
 				<section>
 					<h3>Puppet modules</h3>
 					<ul>
-						<li class="fragment">accounts in the example we saw, is a module</li>
+						<li class="fragment">accounts in the previous slide is a module</li>
 						<li class="fragment">a lot of modules are available from puppetlabs and the community</li>
 						<li class="fragment">not all modules are of good quality</li>
 						<li class="fragment">written in a declarative "ruby-like" language</li>
@@ -149,7 +206,7 @@
 					<h3>Node classification</h3>
 					<ul>
 						<li class="fragment">Foreman makes it easy to classify new nodes</li>
-						<li class="fragment">We classify into group based on faculty, dept</li>
+						<li class="fragment">We classify into group based on faculty and deptartment</li>
 						<li class="fragment">Configuration items (i.e packages) are tied to groups</li>
 						<li class="fragment">Foreman is ruby too</li>
 					</ul>
