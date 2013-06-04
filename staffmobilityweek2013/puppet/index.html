@@ -39,25 +39,71 @@
 					<ul>
 						<li class="fragment">ssh looping as a configuration tool</li>
 						<li class="fragment">closed source, high cost software from a big vendor</li>
-						<li class="fragment">no central repository for configuration items</li>"
+						<li class="fragment">no central repository for configuration items</li>
 					</ul>
 				</section>
 				<section>
 					<h3>What is puppet?</h3>
-					<li>ruby based</li>
-					<li>three main components, puppet, facter and hiera</li>
+					<li class="fragment">ruby based</li>
+					<li class="fragment">three main components, puppet, facter and hiera</li>
+					<li class="fragment">open source, community</li>					
 				</section>				
 				<section>
 					<h3>How it works?</h3>
 					<ul>
 						<li class="fragment">define desired state for your infrastructure</li>
 						<li class="fragment">configuration is code which accomodate versioncontrol</li>
-						<li class="fragment">open source, community</li>
+						<li class="fragment">you tell what you need, puppet takes care of how</li>
 					</ul>
 				</section>
 				<section>
+					<h3>Example of creating a user</h3>
+					<pre>
+						class accounts ($uid,$realname,$pass,$username,$status,){
+						  define singleuser ($uid, $realname, $pass, $username, $status) {
+						    user { $username:
+						      ensure            =>  $status,
+						      uid               =>  $uid,
+						      gid               =>  $username,
+						      shell             =>  '/bin/bash',
+						      home              =>  "/home/${username}",
+						      comment           =>  $realname,
+						      password          =>  $pass,
+						      managehome        =>  true,
+						      require           =>  Group[$username],
+						    }
+						    group { $username:
+						      gid               =>  $uid,
+						    }
+						    file { "/home/${username}":
+						      ensure            =>  directory,
+						      owner             =>  $username,
+						      group             =>  $username,
+						      mode              =>  0711,
+						      require           =>  [ User[$username], Group[$username] ],
+						    }
+						  }
+						}
+					</pre>
+				</section>
+				<section>
+					<h3>Example of creating a user</h3>
+					<pre>
+						  accounts::singleuser { 'Homer Simpson':
+						    uid             =>  533,
+						    realname        =>  'Homer Simpson',
+						    pass           =>  'asuperlongandcomplexpasswordhashwithsalt',
+						    username        =>  'homer',
+						    status          =>  'present',
+						  }
+					</pre>
+					<h3 class="fragment">will probably work on mac, freebsd, and various linux flavors</h3>
+				</section>				
+				
+				<section>
 					<h3>Puppet modules</h3>
 					<ul>
+						<li class="fragment">accounts in the example we saw, is a module</li>
 						<li class="fragment">a lot of modules are available from puppetlabs and the community</li>
 						<li class="fragment">not all modules are of good quality</li>
 						<li class="fragment">written in a declarative "ruby-like" language</li>
