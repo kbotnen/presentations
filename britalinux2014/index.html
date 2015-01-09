@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Unix klientdrift - Presentasjon januar 2015</title>
+
+    <meta name="description" content="Unix klientdrift - Presentasjon januar 2015">
+    <meta name="author" content="Kristian Botnen">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/serif.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if (window.location.search.match(/print-pdf/gi)) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild(link);
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Puppet</h1>
+          <h3>Configuration management</h3>
+          <p>
+            ... and maybe something more
+          </p>
+        </section>
+        <section>
+          <h3>A brief history</h3>
+          <ul>
+            <li class="fragment">
+              ssh looping as a configuration tool
+            </li>
+            <li class="fragment">
+              closed source, high cost software from a big vendor
+            </li>
+            <li class="fragment">
+              no central repository for configuration items
+            </li>
+            <li class="fragment">
+              no central oveview of nodes and state
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>What is puppet?</h3>
+          <li class="fragment">
+            ruby based
+          </li>
+          <li class="fragment">
+            three main components: Puppet, Facter and Hiera
+          </li>
+          <li class="fragment">
+            open source, community, free
+          </li>
+        </section>
+        <section>
+          <h3>Facter</h3>
+          <div class="fragment">
+          <p> gir informasjon om hosten som det kjøres på</p>
+          <pre><code data-trim contenteditable>
+ac02gv1j8djwt:britalinux2014 kbo041$ facter
+architecture => x86_64
+domain => klientdrift.uib.no
+facterversion => 1.7.5
+fqdn => ac02gv1j8djwt.klientdrift.uib.no
+hardwareisa => i386
+hardwaremodel => x86_64
+hostname => ac02gv1j8djwt
+id => kbo041
+interfaces => lo0,gif0,stf0,en0,en3,bridge0,p2p0,fw0,en4
+ipaddress => 129.177.11.241
+ipaddress_en4 => 129.177.11.241
+ipaddress_lo0 => 127.0.0.1
+is_virtual => false
+kernel => Darwin
+kernelmajversion => 13.4
+kernelrelease => 13.4.0
+kernelversion => 13.4.0
+macaddress => ec:1a:59:e7:8c:ee
+macaddress_bridge0 => ba:8d:12:91:6d:00
+macaddress_en0 => b8:8d:12:19:5f:98
+macaddress_en3 => b2:00:1d:a6:98:20
+macaddress_en4 => ec:1a:59:e7:8c:ee
+macaddress_fw0 => ec:1a:59:7b:a0:72
+macaddress_p2p0 => 0a:8d:12:19:5f:98
+macosx_buildversion => 13F34
+macosx_productname => Mac OS X
+macosx_productversion => 10.9.5
+macosx_productversion_major => 10.9
+macosx_productversion_minor => 5
+memoryfree => 90.20 MB
+memoryfree_mb => 90.20
+memorysize => 4.00 GB
+memorysize_mb => 4096.00
+memorytotal => 4.00 GB
+mtu_bridge0 => 1500
+mtu_en0 => 1500
+mtu_en3 => 1500
+mtu_en4 => 1500
+mtu_fw0 => 4078
+mtu_gif0 => 1280
+mtu_lo0 => 16384
+mtu_p2p0 => 2304
+mtu_stf0 => 1280
+netmask => 255.255.255.0
+netmask_en4 => 255.255.255.0
+netmask_lo0 => 255.0.0.0
+network_en4 => 129.177.11.0
+network_lo0 => 127.0.0.0
+operatingsystem => Darwin
+operatingsystemrelease => 13.4.0
+osfamily => Darwin
+path => /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/git/bin:/usr/local/munki:/usr/texbin
+processorcount => 4
+productname => MacBookAir4,2
+ps => ps auxwww
+puppetversion => 3.4.2
+rubysitedir => /Library/Ruby/Site/2.0.0
+rubyversion => 2.0.0
+sp_boot_mode => normal_boot
+sp_boot_rom_version => MBA41.0077.B11
+sp_boot_volume => Macintosh HD
+sp_cpu_type => Intel Core i5
+sp_current_processor_speed => 1.7 GHz
+sp_kernel_version => Darwin 13.4.0
+sp_l2_cache_core => 256 KB
+sp_l3_cache => 3 MB
+sp_local_host_name => ac02gv1j8djwt
+sp_machine_model => MacBookAir4,2
+sp_machine_name => MacBook Air
+sp_number_processors => 2
+sp_os_version => OS X 10.9.5 (13F34)
+sp_packages => 1
+sp_physical_memory => 4 GB
+sp_platform_uuid => 48F5055B-B221-5683-8D1B-DF50A6FD8A83
+sp_secure_vm => secure_vm_enabled
+sp_serial_number => C02GV1J8DJWT
+sp_smc_version_system => 1.73f66
+sp_uptime => up 21:11:51:30
+sp_user_name => Kristian Botnen (kbo041)
+sshdsakey => AAAAB3NzaC1kc3MAAACBAIk1Lk0WAUwsG7svS8b95M/VCT3CyLgr17MKzvoR3KHPmpUh87yHj2edob7QLbC9nxUoGODWLE542O4vKUTr7m+moYqc3K70/Xwo5hmWA3gn6jICjqO4EPZ9D3lE1TyVQloPAdQSJPRhQVGYB3K0mfHmitCEo33BSxjaxLrEfoNBAAAAFQDycf3A+QnT6cylrxgoJWe54NCGrwAAAIB84bWGAaQMoUi8zW8HsUPzGtsVFRFjUKWxAVIt5NS/4hiIhSnDoqY7PMutkyi4A9fQxkIua9YGZxuW6Db/TsOWWCDWgZAOAc5I8pQu0s8IHawCqMBOWOxs9WE3o6zs6+cMEd4jMSzHFCkix11SH0zSapzSvmopwxbUA3gW2uq87wAAAIBChqHbE0P32s/FeQAunTSW0rRJg5CB/FyP3ySa1GDMdAGyHkQ5drN4Pkcf34uREioo67hXppT1Fz4JZ43jbTpDa3Cxih5KBja1EylQbUKLtZdI5CrgLg7Pb0aPV3utjrZQupfEy7b8f9VjycxMM2HAZG1bavqcN134fqy6VyNWhw==
+sshfp_dsa => SSHFP 2 1 989e877651472a5980b62d374c8d4fcacc162017
+SSHFP 2 2 ff77fa0e26f3e58f869f8f31b7fef88da506ad7e3040965056a6c1f6eaceeb30
+sshfp_rsa => SSHFP 1 1 5f890ab17ccd6f4c310899098af0e49992cc9085
+SSHFP 1 2 5c56e1f7a351b0dc57de94cf1a888cf7328390c75e6f7188c6a14553b06b74fe
+sshrsakey => AAAAB3NzaC1yc2EAAAADAQABAAABAQCx/WajxEquuk/MLhERvqdlqFhZgIOmvU/PwzStBVC2MZLANsGWNIOw9N6BmB728nXCZ/3FeT4GMosbgIcufp4q9KJz1fWx/C5FvMZjZSsHnTvWSOzd5reOpU6JesIRrSUpTgqgBGyd/C9SRE9wKcbW0lLCdNN64390ev2kQ0N5wI7v4kx0VjGfXgAIBxl0StdkDI+1EEfyaPHsaN8xQfvswBf+pzFycrkKcuC4iqOyPz05eNBKRPmWYDoiahWgaMSQfxHzIgoD6woEUaA18N+FCtDByBi4gg0WxjFAUdssIn4QUhtcWf6xHd0wFl3dXFvmUitWt9Jcx+APWaQwZIvr
+swapencrypted => true
+swapfree => 1.05 GB
+swapfree_mb => 1080.00
+swapsize => 2.00 GB
+swapsize_mb => 2048.00
+timezone => CET
+uptime => 21 days
+uptime_days => 21
+uptime_hours => 515
+uptime_seconds => 1857062
+virtual => physical
+          </code></pre>
+          <p>Tilgjengelige facts kan variere mellom operativsystemene</p>
+          </div>
+          <pre class="fragment"><code data-trim contenteditable>$ facter | egrep "sp_os_version|operatingsystemrelease"</code></pre>
+        </section>
+        <section>
+          <h3>Hiera</h3>
+          <div class="fragment">
+          <p>oppslag av (eksterne) data</p>
+          <pre><code data-trim contenteditable>
+---
+krb5::manage_keytabs: true
+keytabs:
+  default:
+    principals: [ 'host', 'nfs' ]
+
+classes:
+  - platform::ubuntu
+  - apt::unattended_upgrades
+  - networkmanager
+  - autofs
+  - krb5
+  - apparmor
+  - libldap
+  - ntp
+  - resolvconf
+  - ufw
+  - sssd
+  - auth_client_config
+  - grub
+  - locale
+  - ssh
+
+puppet_env:
+  production:
+    puppet_server:            client-pm2.puppet.uib.no
+
+apt_sources:
+  ubuntu-base-prod:
+    location:    http://repo.uib.no/apt/ubuntu-base-prod
+    include_src: false
+    architecture: amd64
+
+apt_keys:
+  repo_uib:
+    key:          4E3B734C
+    key_source:   http://repo.uib.no/apt/gpg.key
+
+packages:
+  augeas-lenses:                { ensure: installed }
+  augeas-tools:                 { ensure: installed }
+  firefox-locale-nn:            { ensure: installed }
+  git:                          { ensure: installed }
+  inorwegian:                   { ensure: installed }
+  iotop:                        { ensure: installed }
+  ksh:                          { ensure: installed }
+  language-pack-nn:             { ensure: installed }
+  myspell-nn:                   { ensure: installed }
+
+auth_client_config::override_homedir:     false
+
+sssd::ldap_tls_cacert:      '/etc/ssl/certs/ca-certificates.crt'
+
+ufw_allow:
+  allow_TCP_from_SIP:
+    proto: 'tcp'
+    port: 5060
+    from: '129.177.15.201'
+  allow_UDP_from_SIP:
+    proto: 'udp'
+    port: 5060
+    from: '129.177.15.201'
+
+print_manage_config:             true
+print_manage_configfilename:     legacy_cupsd.conf.linux.erb
+print_ppd:
+  pullprintricoh_ps:
+    ensure: file
+    source: puppet:///modules/platform/precise/ppds/pullprintricoh_ps.ppd
+    path: /usr/share/ppd/uib/pullprintricoh_ps.ppd
+    owner: root
+    group: root
+    
+print_manage_printers:
+  #We need to remove old queues that is related to Safecom G2
+  Pullprint_pcl:
+    ensure: absent
+
+  PullprintRicoh_pcl:
+    ensure: absent
+
+  pullprintricoh_ps:
+    name: pullprintricoh_ps
+    uri: lpd://pullprint.uib.no/pullprintricoh
+    location: Ricoh PS on UiB campus
+    description: PullPrintRicoh on pullprint.uib.no
+    ppd: /usr/share/ppd/uib/pullprintricoh_ps.ppd
+    shared: false
+    enabled: true
+    duplex: DuplexNoTumble
+    page_size: A4
+    color_model: CMYK
+    options:
+    ppd_options:
+    
+  pullprintricoh_ps2:
+    name: pullprintricoh_ps2
+    uri: lpd://pullprint2.uib.no/pullprintricoh
+    location: Ricoh PS on UiB campus
+    description: PullPrintRicoh on pullprint2.uib.no
+    ppd: /usr/share/ppd/uib/pullprintricoh_ps.ppd
+    shared: false
+    enabled: true
+    duplex: DuplexNoTumble
+    page_size: A4
+    color_model: CMYK
+    options:
+    ppd_options:    
+
+pklocalauthority:
+  aptadmins: 
+    ansatt: true
+    stud: true
+  dateadmins:
+    ansatt: true
+    stud: true
+  screenadmins: 
+    ansatt: true
+    stud: true
+  localeadmins:
+    ansatt: true
+    stud: true
+  networkmanageradmins:
+    ansatt: true
+    stud: true
+
+sudoers:
+#apt-get for ansatt
+  ansatt:apt-get:
+    type:       group
+    priority:   20
+    runas:      ALL
+    command:   [ '/usr/bin/apt-get' ]
+#Klientdrift start
+  ava009:ukl:
+    type:       user
+    priority:   20
+    runas:      ALL
+  kristiancb:ukl:
+    type:       user
+    priority:   20
+    runas:      ALL
+#Klientdrift end
+#Infrastruktur start
+  st02221:ita:
+    type:       user
+    priority:   20
+    runas:      ALL
+  och061:ita:
+    type:       user
+    priority:   20
+    runas:      ALL
+#Infrastruktur end
+#Brita start
+  irene:brita:
+    type:       user
+    priority:   20
+    runas:      ALL
+  olea:brita:
+    type:       user
+    priority:   20
+    runas:      ALL
+#Brita end
+#Local users start
+  brita:local:
+    type:       user
+    priority:   20
+    runas:      ALL
+#Local users end
+#PC-vakter start
+  pcvakt:kill:
+    type:       group
+    priority:   20
+    runas:      ALL
+    command:   [ '/bin/kill' ]
+  pcvakt:reboot:
+    type:       group
+    priority:   20
+    runas:      ALL
+    command: [ '/sbin/reboot']                
+#PC-vakter end
+
+ssh_keys:
+  ava009:
+    type: ssh-rsa
+    key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCmrsGC+0KaGyozoY6pQIZySTfsPdR9qg0zUxsIZRC0z4KyG59gnsPhH6HjBOO0MvXi4SiMY2Me0FTbVAL1LXRFSqSKJa0y2nA1l3zuvZhtcDKUXJVp4ir9cTkcuGFrWaMzORPvbv6VI5BpX6y5UY0VBRV3KUsUiU/wD3axEhageTLdfRjdIrcq4RAz5VCkGCnQ3rMv2O4+OSYg7+cIwSaXMnxLPCDj+j/CjbfH7vaguB6lM9+J3upfvw+HVDj/wqqFXFXtgoHbA9/ObJUJwg2fFVeXb7af3EWOLwjiKbifKDE+gCBoVZH9QPc2uYKCn0bM8sgSCa6PK5vi7U15RH+l
+    ip: localhost,129.177.10.111
+  kbo041:
+    type: ssh-rsa
+    key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCznqb+k9jWMcM5OS7Y5YDxUSJ9J5knPawc/fReL8tibHs/EaKpQDVO0UqMGX1UzOjWxgLlLu6OEAIau1zPOQlWrt7yABawClqqxANz8i9NX0pd8lb/yEY7GzXmZ8viit6bXagHrp+Df3/9NfoP9BJUu2/2mOYZHfLRPuFuLWY0wY4qbLJQeM/f7EBvdJIEN/T6bHD163sQuz4EDC4xwQNe5tBm2bAjXqErSD8wVjP8bz60LsxcMAtCVPC/E9D/RbSMDJgAd/pihDEoIU+c0XPZgh4OjRXZsJDDfWuehfUfjb4RTY3DQeP7vf1lAfxrJ2SQk3DxDoYGPAn7zJ5MSd9/
+    ip: localhost,129.177.10.11
+
+sudoers::purge_sudoersd:   true
+           
+          </code></pre>
+          <div class="fragment">
+          <p>Hieradata kan gjelde for:</p>
+          <ul>
+            <li>alle maskiner</li>
+            <li>et utvalg av maskiner</li>
+            <li>en enkelt maskin</li>
+            <li>... nøstes ved behov</li>
+          </ul>
+          </div>
+          </div>
+        </section>
+        <section>
+          <h3>Puppet binder det hele sammen</h3>
+          <a class="fragment" class="image"> <img src="./pictures/multipurpose-glues-1.jpg" alt="Puppet is the glue"> </a>
+        </section>
+
+        <section>
+          <h1>Infrastruktur</h1>
+        </section>
+        
+        <section>
+          <h3>Puppetmastere</h3>
+          <p>Konfigurasjon er delt i klient og server</p>
+          <p>Konfiugrasjonsdata er delt i klient og server</p>
+          <p>- - -</p>
+          <p>Klient har dev, test og prod puppetmastere</p>
+          <p>Klient har faktisk to prod puppetmastere</p>
+          <p>Server har dev, test og prod puppetmastere</p>
+          <p>- - -</p>
+          <p>Alle puppetmasterene har rare navn</p>
+          <p>- - -</p>
+          <p>Sjekk alltid at du snakker med den puppetmasteren du tror!</p>
+          <pre class="fragment"><code data-trim contenteditable>$ cat /etc/puppet/puppet.conf | grep server</code></pre>
+        </section>
+        
+        <section>
+          <h3>Nodeclassifier / Foreman</h3>
+          <p>Foreman gjør det enkelt å klassifisere nye noder</p>
+          <p>Klassifiserer v.h.a grupper basert på ou, plattform, role</p>
+          <p>Konfigurasjon hieradata knyttes til grupper</p>
+          <p>Rapport fra puppetnodene sendes til Foreman</p>
+          <p>- - -</p>
+          <p>klientadmin, klientadmin.test, serveradmin, serveradmin.test</p>
+          <p>dev og test -puppetmastere rapporterer til klientadmin.test</p>
+          <p>prod -puppetmastere rapporterer til klientadmin</p>
+          </p>
+        </section>               
+
+        <section>
+          <h3>Sertifikater / PKI</h3>
+          <p>Et sertifikat består av to deler, 1 på klienten og 1 på serveren</p>
+          <p>Disse to delene må matche, ellers nekter puppet å kjøre</p>
+          <p>Sertifikatet opprettes første gang ved installasjon / første puppetrun</p>
+          <p>- - -</p>
+          <p>Kan skape problemer ved reinstallasjon</p>
+          <pre class="fragment"><code data-trim contenteditable>
+          Error: Could not request certificate: The certificate retrieved from the master does not match the agent's private key.
+Certificate fingerprint: 61:F8:87:9A:AE:1F:90:88:4B:AE:13:CF:37:AA:BA:B9:69:C9:0C:0E:44:2E:64:AC:4B:1F:74:CA:8B:76:5D:FF
+To fix this, remove the certificate from both the master and the agent and then start a puppet run, which will automatically regenerate a certficate.
+On the master:
+  puppet cert clean ac02gv1j8djwt.klientdrift.uib.no
+On the agent:
+  rm -f /var/lib/puppet/ssl/certs/ac02gv1j8djwt.klientdrift.uib.no.pem
+  puppet agent -t
+          </code></pre>
+          <div class="fragment">
+          <p>Om du er på en Mac</p>
+          <pre><code data-trim contenteditable># /usr/local/bin/uib_puppet_clean.sh</code></pre>
+          </div>
+        </section>
+        
+        <section>
+          <h1>Litt om puppet</h1>
+        </section>        
+        
+        <section>
+          <h3>Abstraksjon / Krossplattform</h3>
+          <p class="fragment">puppet abstraherer vekk forskjeller mellom plattformer</p>          
+          <pre class="fragment"><code data-trim contenteditable>
+# dpkg --get-selections
+account-plugin-aim                              install
+account-plugin-facebook                         install
+account-plugin-flickr                           install
+          </code></pre>
+          <pre class="fragment"><code data-trim contenteditable>
+# pkgutil --pkgs
+com.128bittech.FreeFonts
+com.acdsystems.acdsee
+com.adobe.acrobat.a11.AdbeRdrSecUpd11002
+          </code></pre>
+          <pre class="fragment"><code data-trim contenteditable>
+# yum list installed
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.coreix.net
+ * extras: centos.serverspace.co.uk
+ * updates: mirrors.coreix.net
+Installed Packages
+ModemManager-glib.x86_64                                            1.1.0-6.git20130913.el7                                         @anaconda
+          </code></pre>          
+          </section>
+          <section>
+          <h3>Abstraksjon / Krossplattform 2</h3>
+          <p class="fragment">puppet lar oss bruke en kommando uavhengig plattform</p>
+          <pre class="fragment"><code data-trim contenteditable>          
+# puppet resource package          
+package { 'account-plugin-aim':
+  ensure => '3.8.6-0ubuntu9.1',
+}
+package { 'account-plugin-facebook':
+  ensure => '0.11+14.04.20140409.1-0ubuntu1',
+}
+package { 'account-plugin-flickr':
+  ensure => '0.11+14.04.20140409.1-0ubuntu1',
+}
+        </code></pre>
+        <pre class="fragment"><code data-trim contenteditable>
+# puppet resource package        
+package { 'BSD':
+  ensure => 'installed',
+}
+package { 'CFPropertyList':
+  ensure => ['2.2.0'],
+}
+package { 'Gutenprint 5':
+  ensure => 'installed',
+}
+        </code></pre>
+        <pre class="fragment"><code data-trim contenteditable>
+# puppet resource package        
+package { 'ModemManager-glib':
+  ensure => '1.1.0-6.git20130913.el7',
+}
+package { 'NetworkManager':
+  ensure => '0.9.9.1-29.git20140326.4dba720.el7_0',
+}
+package { 'NetworkManager-glib':
+  ensure => '0.9.9.1-29.git20140326.4dba720.el7_0',
+}
+        </code></pre>            
+        </section>
+        
+        <section>
+          <h3>Types and Providers</h3>
+          <div class="fragment">
+          <p>bruker</p>
+          <pre class="fragment"><code data-trim contenteditable>
+# puppet resource user
+user { 'brita':
+  ensure           => 'present',
+  comment          => 'Brita Localuser,,,',
+  gid              => '256',
+  home             => '/home/brita',
+  password         => '$1$kJO41PQA$39bKCeUaIksNFdgNXuGjF/',
+  password_max_age => '99999',
+  password_min_age => '0',
+  shell            => '/bin/bash',
+  uid              => '256',
+}            
+          </code></pre>
+          <pre class="fragment"><code data-trim contenteditable>
+# puppet resource user
+user { 'brita':
+  ensure     => 'present',
+  comment    => 'Universitetet i Bergen',
+  gid        => '20',
+  groups     => ['admin'],
+  home       => '/Users/brita',
+  iterations => '23148',
+  password   => '602c06734bb02a07993b828c4603830ea94e8deeb82aa0d565fa787d0219c7eefc5740918916ad1455291904a82a53a9b643003839c2f7ac2c460d3b47a190bff47143a7666f14ff6a305767ec10f0d1cf8cb9e4a69f6d958ed21b7c1110f68c70ebdd0b61a61a4771ae4e05f3801c7765b45952f20d05ae0e731a23aea8d87d',
+  salt       => 'c9e5e5a30a7fed991431534e450553dd75866bb8367a3c37c21de75124b1944d',
+  shell      => '/bin/bash',
+  uid        => '501',
+}
+          </code></pre>
+          </div>
+        </section>
+        <section>
+          <h3>Types and Providers 2</h3>
+          <div class="fragment">
+          <p>min favoritt, printer</p>
+          <pre class="fragment"><code data-trim contenteditable>
+# puppet resource printer
+printer { 'pullprintricoh':
+  ensure      => 'present',
+  accept      => 'true',
+  description => 'Pullprint Ricoh Safecom PCL',
+  enabled     => 'true',
+  location    => 'Ricoh PCL on UIB campus',
+  uri         => 'lpd://pullprint.uib.no/pullprintricoh',
+}         
+          </code></pre>
+          <pre class="fragment"><code data-trim contenteditable>
+# puppet resource printer
+printer { 'ALDERAAN_PullPrintRicoh':
+  ensure      => 'present',
+  accept      => 'true',
+  description => 'ALDERAAN-PullPrintRicoh',
+  enabled     => 'true',
+  location    => 'Universitetet i Bergen',
+  uri         => 'smb://ALDERAAN.klient.uib.no/pullprintricoh',
+}
+          </code></pre>
+          </div>
+         <p class="fragment">vi kan også legge til / fjerne en ressurs</p>
+         <pre class="fragment"><code data-trim contenteditable>
+# puppet resource package nmap ensure=installed
+Notice: /Package[nmap]/ensure: ensure changed 'purged' to 'present'
+package { 'nmap':
+  ensure => '6.40-0.2ubuntu1',
+}       
+        </code></pre> 
+        </section>
+
+        <section>
+          <h3>La oss se på det hele samlet</h3>
+          <p class="fragment">La oss se litt på Foreman</p>
+          <p class="fragment">La oss se litt på Hieradata</p>
+        </section>
+                
+        <section>
+          <h1>SSH Nøkler</h1>
+        </section>
+        
+        <section>
+          <h3>Øvingsoppgave</h3>
+          
+          <p class="fragment">Lag ditt eget nøkkelsett</p>
+          <pre class="fragment"><code data-trim contenteditable>
+$ mkdir ~/.ssh
+$ chmod 700 ~/.ssh
+$ cd ~/.ssh
+$ ssh-keygen -t rsa -b 4096
+$ cat id_rsa.pub >> authorized_keys
+$ chmod 600 *
+$ ls -la
+        </code></pre>
+        <p class="fragment">Test nøkkelsettet ditt</p>
+          <pre class="fragment"><code data-trim contenteditable>
+$ ssh login.uib.no
+        </code></pre> 
+        <p class="fragment">La oss forhåndsåpne nøkkelsettet</p>
+        <pre class="fragment"><code data-trim contenteditable>
+$ ssh-add
+$ ssh login.uib.no
+$ exit
+$ ssh sync.uib.no
+        </code></pre>
+        <p class="fragment">Lær mer</p>
+        <pre class="fragment"><code data-trim contenteditable>
+$ man ssh-add
+        </code></pre>        
+        </section>
+        
+        <section>
+          <h1>Kjekke kommandoer</h1>
+        </section>
+        <section>
+          <p class="fragment">List ut skrivere</p>
+        <pre class="fragment"><code data-trim contenteditable>
+$ lpstat -a
+pullprintricoh accepting requests since 2014-10-24T13:14:32 CEST
+pullprintricoh_ps accepting requests since 2014-10-24T13:13:43 CEST
+pullprintricoh_ps2 accepting requests since 2014-10-24T13:13:43 CEST
+        </code></pre>
+          <p class="fragment">Restarte skriversystemet Mac</p>
+        <pre class="fragment"><code data-trim contenteditable>
+# launchctl unload /System/Library/LaunchDaemons/org.cups.cupsd.plist
+# launchctl load /System/Library/LaunchDaemons/org.cups.cupsd.plist 
+        </code></pre> 
+          <p class="fragment">Restarte skriversystemet Ubuntu</p>
+        <pre class="fragment"><code data-trim contenteditable>
+# service cups restart
+cups stop/waiting
+cups start/running, process 10478
+        </code></pre>                           
+        </section>
+ 
+        <section>
+          <p class="fragment">History</p>
+        <pre class="fragment"><code data-trim contenteditable>
+# history
+  358  lpstat -a
+  359  service cups restart
+  360  cat /etc/puppet/puppet.conf
+  361  clear
+  362  history
+        </code></pre>
+                   
+        </section>        
+
+        <section>
+          <h1>Nyttige konfigurasjonsfiler</h1>
+        </section>
+        
+        <section>
+          <h3>/etc/puppet/puppet.conf</h3>
+        <pre class="fragment"><code data-trim contenteditable>
+# cat /etc/puppet/puppet.conf
+[main]
+  logdir=/var/log/puppet
+  vardir=/var/lib/puppet
+  ssldir=/var/lib/puppet/ssl
+  rundir=/var/run/puppet
+  factpath=$vardir/lib/facter
+  templatedir=$confdir/templates
+  ca_server=client-pm1.puppet.uib.no
+  certname=it010011.klientdrift.uib.no
+  server=client-pm2.puppet.uib.no
+  masterport=443
+  pluginsync=true
+
+[agent]
+  environment=production
+  report=true
+  runinterval=3600
+  configtimeout=120
+  splay=true
+  splaylimit=1800
+  usecacheonfailure=true
+
+[user]
+  report=false
+  reports=log
+        </code></pre>  
+        <pre class="fragment"><code data-trim contenteditable>
+# cat /etc/puppet/puppet.conf
+[main]
+  logdir=/var/log/puppet
+  vardir=/var/lib/puppet
+  ssldir=/var/lib/puppet/ssl
+  rundir=/var/run/puppet
+  factpath=$vardir/lib/facter
+  templatedir=$confdir/templates
+  ca_server=client-dev.puppet.uib.no
+  certname=ac02gv1j8djwt.klientdrift.uib.no
+  server=client-dev.puppet.uib.no
+  masterport=443
+  pluginsync=true
+
+[agent]
+  environment=dev
+  report=true
+  runinterval=3600
+  configtimeout=120
+  splay=true
+  splaylimit=1800
+  usecacheonfailure=true
+
+[user]
+  report=false
+  reports=log
+        </code></pre>                    
+        </section>
+
+        <section>
+          <h3>/Library/Preferences/ManagedInstalls</h3>
+        <pre class="fragment"><code data-trim contenteditable>
+# defaults read /Library/Preferences/ManagedInstalls.plist
+{
+    AppleSoftwareUpdatesOnly = 0;
+    ClientIdentifier = ac02gv1j8djwt;
+    DaysBetweenNotifications = 7;
+    InstallAppleSoftwareUpdates = 1;
+    InstalledApplePackagesChecksum = 8020feba5aaec332c9995f6a7669a8e2ba5afad81f0ada83339b4e428ebf733e;
+    LastAppleSoftwareUpdateCheck = "2015-01-08 22:03:25 +0000";
+    LastCheckDate = "2015-01-08 22:02:58 +0000";
+    LastCheckResult = 0;
+    LogFile = "/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log";
+    LogToSyslog = 0;
+    LoggingLevel = 1;
+    ManagedInstallDir = "/Library/Managed Installs";
+    PackageVerificationMode = hash;
+    SoftwareRepoURL = "https://munki.uib.no/repo";
+    SoftwareUpdateServerURL = "";
+    SuppressAutoInstall = 0;
+    SuppressStopButtonOnInstall = 0;
+    SuppressUserNotification = 0;
+    UseClientCertificate = 0;
+}
+        </code></pre>
+        <pre class="fragment"><code data-trim contenteditable>
+# defaults write /Library/Preferences/ManagedInstalls DaysBetweenNotifications 2
+        </code></pre>                        
+        </section>
+                              
+        <section>
+          <h1>Spørsmål?</h1>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls : true,
+        progress : true,
+        history : true,
+        center : true,
+
+        width: 960,
+        height: 900,
+    
+        theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition : Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies : [{
+          src : 'lib/js/classList.js',
+          condition : function() {
+            return !document.body.classList;
+          }
+        }, {
+          src : 'plugin/markdown/marked.js',
+          condition : function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        }, {
+          src : 'plugin/markdown/markdown.js',
+          condition : function() {
+            return !!document.querySelector('[data-markdown]');
+          }
+        }, {
+          src : 'plugin/highlight/highlight.js',
+          async : true,
+          callback : function() {
+            hljs.initHighlightingOnLoad();
+          }
+        }, {
+          src : 'plugin/zoom-js/zoom.js',
+          async : true,
+          condition : function() {
+            return !!document.body.classList;
+          }
+        }, {
+          src : 'plugin/notes/notes.js',
+          async : true,
+          condition : function() {
+            return !!document.body.classList;
+          }
+        }]
+      });
+
+    </script>
+
+  </body>
+</html>
