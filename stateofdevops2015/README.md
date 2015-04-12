@@ -5,6 +5,7 @@
 ## For å forhåndsvise presentasjonen
 
     $ git clone git@github.com:kbotnen/presentations.git
+    $ git checkout gh-pages
     $ cd stateofdevops2015
     $ python -m SimpleHTTPServer 8000
 
