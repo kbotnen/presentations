@@ -4,14 +4,15 @@
 
 ## For å forhåndsvise presentasjonen
 
-    '''
     $ git clone git@github.com:kbotnen/presentations.git
     $ cd stateofdevops2015
     $ python -m SimpleHTTPServer 8000
-    '''
 
 Åpne siden 127.0.0.1:8000 i din favoritt nettleser
 
+## For å jobbe på presentasjonen
+
+Rediger filen content/content.md
 
 ## License
 
