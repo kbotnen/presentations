@@ -1,3 +1,11 @@
+### Tittel og ingress
+
+- Tittel: Devops ved ITA
+
+- Ingress: Vi skal snakke litt om hva devops-metodikk betyr for oss, hva vi har
+gjort til nå og hvordan vi ser for oss veien videre. Vi vil også vise et
+praktisk eksempel på hvordan devops brukes i vår hverdag.
+
 ### Om dette dokumentet
 
 - Skriv i Markdown
@@ -14,7 +22,6 @@
 - kontinuerlig forbedring
 - kontinuerlig levering
 - stabilt driftsmiljø
-
 - bedre samarbeid mellom seksjoner og grupper
 - mindre personavhengighet
 
@@ -32,8 +39,8 @@ Alle bruker en felles verktøykasse!
 - puppet (konfigurasjonsmanagement)
 - ansible (orkestrering)
 - jenkins (kontinuerlig integrasjon: bygging, testing, overvåking)
-- python, php, ruby, bash, powershell (programmeringsspråk)
-- vagrant, virtualbox, workstation, hyperv (virtualisering)
+- python, php, ruby, bash (programmeringsspråk)
+- vagrant, virtualbox, vmware (virtualisering)
 
 
 
@@ -86,11 +93,12 @@ Kultur og endring av kultur!
 - krever at en jobber / forstår på tvers av etablerte faggrupper
 - krever at en bryr seg om helheten, det vil si at en må ha holistisk tilnærming til utvikling og infrastruktur!
 - endring av hvordan folk arbeider
-- - puppet brukes også på applikasjonsdriftsnivå
+- puppet brukes også på applikasjonsdriftsnivå
 
 
 
 #### Hva skal til for at devops skal fungere på en institusjon som UiB IT?
+### Denne må vi snakke mer om!
 
 
 
@@ -100,7 +108,7 @@ Kultur og endring av kultur!
 
 
 #### Eksempel tatt fra virkeligheten
-
+### Dette må klargjøres
 
 
 Scenario: Vi vil ha en prosjekt side, og vi vil ha den igår!
@@ -115,6 +123,17 @@ Scenario: Vi vil ha en prosjekt side, og vi vil ha den igår!
 - - ruby appstack (ruby, rails)
 
 
+#### Fordeler
+- Når man har satt opp en instans er det kjappt å sette opp flere
+- Når man ønsker å endre kan man endre i koden, kjøre i test, og videre i dev.
+Man er da sikker på at det er samme endringen som er gjort både i test og dev.
+- Når man skal oppgradere applikasjoner kan man kjøre opp en ny instans med den
+nye versjonen og bytte fra den gamle til den nye, og så kaste den gamle. Mye bedre
+en å prøve å inplace oppgradere den eksisterende applikasjoner.
+- - Dette kan gi oss mindre / ingen nedetid ved oppgradering av applikasjoner.
+
+
+
 
 #### Applikasjon
 - Det bestilles og opprettes en postgresql database (manuelt steg)
@@ -124,6 +143,11 @@ Scenario: Vi vil ha en prosjekt side, og vi vil ha den igår!
 #### Drift
 - Alle er happy
 
+
+
+#### Sky / CLoud
+- UH-Sky
+- IAAS
 
 
 #### Spørsmål?
