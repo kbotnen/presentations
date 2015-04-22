@@ -11,6 +11,8 @@
 
 Åpne siden 127.0.0.1:8000 i din favoritt nettleser
 
+Eventuelt gå til: http://folk.uib.no/kbo041/devops/#/
+
 ## For å jobbe på presentasjonen
 
 Rediger filen content/content.md

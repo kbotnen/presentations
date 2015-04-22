@@ -17,6 +17,8 @@ praktisk eksempel på hvordan devops brukes i vår hverdag.
 
 [http://notat.devapp.uib.no:9001/p/stateofdevopsuib](http://notat.devapp.uib.no:9001/p/stateofdevopsuib)
 
+[http://folk.uib.no/kbo041/devops/#/](http://folk.uib.no/kbo041/devops/#/)
+
 
 
 ### Hva ønsker vi å oppnå
@@ -53,7 +55,7 @@ Jobbe smartere!
 dev / test / prod -miljø
 
 - Gjør det enklere å styre endringer
-- ITIL
+- ITIL (Endringsprosessen)
 - Fører forhåpentligvis til mer stabilt driftsmiljø
 - På klienter, servere, pakker og applikasjoner
 
@@ -98,7 +100,7 @@ Versjonshåndtering
 
 
 
-Konfiurasjonsmanagement
+Konfigurasjonsmanagement
 
 - Klientdrift har fungert som en sandkasse for utprøving av konsepter fra ca. 2012
 - Siden 2014 har alle nye servere blitt satt opp med puppet
@@ -559,7 +561,7 @@ nye versjonen og bytte DNS fra eksisterende server til ny, og så kaste den gaml
 ### Hva ønsker vi å gjøre videre?
 
 - Vi ønsker at flere skal jobbe smartere og ta i bruk verktøy fra verktøykassen
-- Automatiserte testing av infrastruktur kode
+- Automatisert testing av infrastruktur kode
 - Måling? (hvem kom med dette, og hva mente du?)
 - Automatisert pakking av applikasjoner, f.eks: om en utvikler lager en ny tag i
 Git så pakkes og deployes det en ny versjon av applikasjonen
@@ -573,4 +575,17 @@ Git så pakkes og deployes det en ny versjon av applikasjonen
 
 
 
+### Konklusjon
+
+- Devops for oss er å samarbeide på tvers av grupper og seksjoner
+- Devops for oss er å automatisere så mye som mulig
+- Devops for oss er å ha versjonskontroll på så mange elementer som mulig
+- Devops for oss er å ha åpenhet, samt dele så mye som mulig
+
+
+
 #### Spørsmål?
+
+- Interessert i å bruke noen av verktøyene fra verktøykassen?
+- Har du noen gode ideer om hvordan IT-Avdelingen kan utvikle seg videre?
+- Kan Devops brukes andre steder på UiB?
