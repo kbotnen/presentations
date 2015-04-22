@@ -6,6 +6,8 @@
 gjort til nå og hvordan vi ser for oss veien videre. Vi vil også vise et
 praktisk eksempel på hvordan devops brukes i vår hverdag.
 
+
+
 ### Om dette dokumentet
 
 - Skriv i Markdown
@@ -19,11 +21,11 @@ praktisk eksempel på hvordan devops brukes i vår hverdag.
 
 ### Hva ønsker vi å oppnå
 
-- kontinuerlig forbedring
-- kontinuerlig levering
-- stabilt driftsmiljø
-- bedre samarbeid mellom seksjoner og grupper
-- mindre personavhengighet
+- Kontinuerlig forbedring
+- Kontinuerlig levering
+- Stabilt driftsmiljø
+- Bedre samarbeid mellom seksjoner og grupper
+- Mindre personavhengighet
 
 
 
@@ -35,20 +37,44 @@ Alle bruker en felles verktøykasse!
 
 
 
-- git (versjonshåndtering)
-- puppet (konfigurasjonsmanagement)
-- ansible (orkestrering)
-- jenkins (kontinuerlig integrasjon: bygging, testing, overvåking)
-- python, php, ruby, bash (programmeringsspråk)
-- vagrant, virtualbox, vmware (virtualisering)
+- Git (versjonshåndtering)
+- Puppet (konfigurasjonsmanagement)
+- Ansible (orkestrering)
+- Jenkins (kontinuerlig integrasjon: bygging, testing, overvåking)
+- Python, Php, Ruby, Bash (programmeringsspråk)
+- Vagrant, Virtualbox, Vmware (virtualisering)
 
 
 
-#### Treng tittel
+Jobbe smartere!
 
-- dev / test / prod -miljø
-- infrastruktur som kode
-- deling av informasjon
+
+
+dev / test / prod -miljø
+
+- Gjør det enklere å styre endringer
+- ITIL
+- Fører forhåpentligvis til mer stabilt driftsmiljø
+- På klienter, servere, pakker og applikasjoner
+
+
+
+Infrastruktur som kode
+
+- Gjør det enklere å implementere dev / test / prod -miljø
+- Gjør konfigurasjonsdata versjonerbare
+- Versjonerte data gjør det lettere å rulle tilbake endringer
+- Kode er lesbart og fungerer som dokumentasjon
+- Tilgjengelig dokumentasjon gjør oss mindre personavhengig
+
+
+
+Deling av informasjon
+
+- Infrastruktur som kode i Git gir "alle" tilgang til å se hvordan ting er skrudd
+sammen
+- Om alle dokumenterer og deler oppsett, fremgangsmåter med mer, kan flere
+lære mer, og vi blir mindre personavhengig
 
 
 
@@ -60,24 +86,49 @@ Historietime!
 
 
 
-- klientdrift har fungert som en sandkasse for utprøving av konsepter fra ca. 2012
-- siden 2014 har alle nye servere blitt satt opp med puppet
-- har "tatt av" siste året
+Versjonshåndtering
+
+- Startet i IA gruppen
+- CVS på MiSide i 2006
+- Konfigurasjonsendring i henhold til .backup / .old regime
+- Versjonshåndtering via "TSM"
+- Gisle presenterte Git rett etter at han begynte på avdelingen
+- Egen intern gitolite git.uib.no i 200X
+- Git workshop i 2009 på IA gruppen
 
 
 
-#### Veien videre?
+Konfiurasjonsmanagement
+
+- Klientdrift har fungert som en sandkasse for utprøving av konsepter fra ca. 2012
+- Siden 2014 har alle nye servere blitt satt opp med puppet
+- Har "tatt av" siste året
+- RHEL 7 blir brekkstang for å komme videre
 
 
 
-Mye gjenstår!
+Orkestrering
+
+- Tradisjonelt vært smarte bash script liggende på en eller annen sin maskin
+- I 2013 testet vi Mcollective kombinert med dokumentasjon av bruk på itwiki
+- I 2015 gikk vi over til Ansible med playbooks i Git og dokmentasjon på itwiki
 
 
 
-- automatiserte tester
-- måling
-- automatisert pakking
-- rhel 7 blir brekkstang for å komme videre
+Kontinuerlig integrasjon
+
+- Unittesting via Jenkins
+- Drar ned kode fra Git til test
+- Kjører Sellenium tester
+
+
+
+Deling av informasjon
+
+- Dokumentasjon har gått fra worddokumenter på p: til mediawiki
+- Mediawiki har historikk og er mer tilgjengelig en filer på disk
+- Workshop mellom drift og utvikling gir innblikk i hvordan ting gjøres hos andre
+og hvilke utfordringer de forskjellige gruppene har, månedlig fra høsten 2014
 
 
 
@@ -89,65 +140,437 @@ Kultur og endring av kultur!
 
 
 
-- krever en "team tankegang" for å lykkes
-- krever at en jobber / forstår på tvers av etablerte faggrupper
-- krever at en bryr seg om helheten, det vil si at en må ha holistisk tilnærming til utvikling og infrastruktur!
-- endring av hvordan folk arbeider
-- puppet brukes også på applikasjonsdriftsnivå
+- Krever en "team tankegang" for å lykkes
+- Krever at en jobber / forstår på tvers av etablerte faggrupper
+- Krever at en bryr seg om helheten, det vil si at en må ha holistisk tilnærming til utvikling og infrastruktur!
+- Endring av hvordan folk arbeider
+- Puppet brukes også på applikasjonsdriftsnivå
 
 
 
 #### Hva skal til for at devops skal fungere på en institusjon som UiB IT?
-### Denne må vi snakke mer om!
 
+- En må finne ut hvordan en skal få folk med på laget
+- En må bygge kompetanse der det går an
 
+Denne må vi snakke mer om!
 
-- en må finne ut hvordan en skal få folk med på laget
-- en må bygge kompetanse der det går an
+Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 
 
 
 #### Eksempel tatt fra virkeligheten
-### Dette må klargjøres
+
 
 
 Scenario: Vi vil ha en prosjekt side, og vi vil ha den igår!
 
 
 
-#### Infrastruktur
-- Provisjonerer en ny RHEL7 server med puppet og de riktige rollene satt
-- - base EL7 (default sikkerhet, repoer og litt annet tjafs)
-- - webserver (apache m mod_passenger)
-- - databaseklient (postgres bindinger)
-- - ruby appstack (ruby, rails)
+#### Utrulling av applikasjon i korte trekk
+
+- Provisjoner en ny RHEL server med Puppet og de riktige rollene satt
+- Base RHEL (Standard sikkerhet, tilganger, repoer med mer)
+- Webserver (Apache m/UiB konfigurasjon)
+- Applikasjonskonfigurasjon (denne er kanskje overflødig?)
+- Selve applikasjonen
+
+
+
+Konfigurasjonsmanagement to the rescue
+
+
+
+Konfigurasjon av server
+```
+# Class: platform::el7
+#
+# This is the common UiB server setup for the Enterprise Linux 7 (el7) platform
+#
+# == Actions
+#
+# Install and configure the el7 system
+#
+#
+# == Examples
+#
+#   class { platform::el7: }
+#
+#
+# == Authors
+# Raymond Kristiansen <raymond@uib.no>
+#
+class platform::el7() {
+
+  $use_fail2ban = hiera('use_fail2ban', true)
+  $use_firewall = hiera('use_firewall', true)
+  $serverauth   = hiera('serverauth', 'sssd')
+
+  # Verifying class parameters with validate_re from stdlib
+  validate_re($platform, hiera('platforms'))
+  validate_re($role, hiera('roles'))
+  validate_re($data_env, hiera('data_envs'))
+
+  # Unless we are a puppetmaster we should add the puppet module
+  unless hiera('puppetmaster') {
+    $puppet_env = hiera_hash('puppet_env')
+    $env = $::environment? { /rts([0-9]*)/ => 'dev', default => $::environment }
+
+    class { '::puppet':
+      pluginsync        => $puppet_env[$env]['puppet_pluginsync'],
+      report            => $puppet_env[$env]['puppet_report'],
+      server            => $puppet_env[$env]['puppet_server'],
+      ca_server         => $puppet_env[$env]['puppet_ca_server'],
+      environment       => $::environment,
+      masterport        => $puppet_env[$env]['puppet_masterport'],
+      usecacheonfailure => $puppet_env[$env]['puppet_usecacheonfailure'],
+      mode              => $puppet_env[$env]['puppet_mode'],
+      tag               => 'bootstrap',
+      packages          => '',
+    }
+  }
+
+
+  # Packages
+  $packages = hiera_hash('packages', {})
+  create_resources ('package', $packages)
+
+  # Remove bootstrap package
+  package {'uib-puppet-bootstrap':
+    ensure    => absent,
+    tag       => 'bootstrap'
+  }
+
+  # RHN register
+  class { '::rhn_register': tag => 'bootstrap' }
+  $rhn_repos = hiera_hash('rhn_register::repos', {} )
+  create_resources ('rhn_register::repo', $rhn_repos, { tag => 'bootstrap' })
+
+  # Set up yum repos
+  class { '::yum': purge_yumreposd => false }
+  class { '::yum::repo::epel': tag => 'bootstrap' }
+  $yum_repos = hiera_hash('yum_repos')
+  create_resources ('yum::repo', $yum_repos, { tag => 'bootstrap' } )
+  class { '::yum::cron': } # Use yum-cron
+
+  # Add sudoers module
+  class { '::sudoers':
+    timeout_value     => hiera('sudoers_timeout'),
+    purge_sudoersd    => hiera('sudoers_purge_sudoersd'),
+    keep_git_env      => hiera('sudoers_keep_git_env'),
+    keep_ssh_env      => hiera('sudoers_keep_ssh_env'),
+    tag               => 'bootstrap',
+  }
+
+  # Add users and groups to sudoers
+  $sudoers = hiera_hash('sudoers')
+  create_resources ('sudoers::add', $sudoers, {
+    require => Class['::sudoers'],
+    tag => 'bootstrap',
+   } )
+
+  # Set up krb5 on bootstrap
+  $keytabs = hiera_hash('keytabs', undef)
+  class { '::krb5':
+    keytabs => $keytabs,
+    tag => 'bootstrap'
+  }
+
+  # serverauth should be either sssd or ldap
+  if $serverauth == "sssd" {
+    class { '::authconfig':
+      sssd => true,
+      krb  => false,
+      ldap => false,
+      require => Class["::sssd"]
+    }
+    class { '::sssd':
+      override_homedir => hiera('sssd_override_homedir'),
+      ldap_uri         => hiera('ldap_uri'),
+      tag              => 'bootstrap',
+    }
+  }
+  elsif $serverauth == "ldap" {
+    class { '::authconfig':
+      sssd => false,
+      krb  => true,
+      ldap => true,
+      require => Package["nss-pam-ldapd"]
+    }
+    package{"nss-pam-ldapd":
+      ensure => installed,
+    }
+    package{["ipa-client", "sssd","sssd-client","libsss_idmap"]:
+      ensure => absent,
+    }
+  }
+
+  # Add users with pam_access, will not be enabled unless authconfig::pam_access = true.
+  class { '::pam_access':
+    access_list => hiera_hash("useraccess")
+  }
+
+  # Set up firewall
+  if $use_firewall {
+    Firewall {
+      before  => Class['::uib_fw::post'],
+      require => Class['::uib_fw::pre'],
+    }
+
+    # Purge firewall chain, but ignore fail2ban rules if used
+    firewallchain { 'INPUT:filter:IPv4':
+      purge  => true,
+      ignore => $use_fail2ban? {
+        true => ['-p tcp -m tcp --dport 22 -j f2b-SSH'],
+        default => undef
+      },
+      before => Class['::firewall'],
+    }
+    firewallchain { 'FORWARD:filter:IPv4':
+      purge  => true,
+      before => Class['::firewall'],
+    }
+    firewallchain { 'POSTROUTING:nat:IPv4':
+      purge  => true,
+      before => Class['::firewall'],
+    }
+
+    class { '::uib_fw::pre': tag => 'bootstrap' }
+    class { '::uib_fw::post': tag => 'bootstrap' }
+    class { '::firewall': tag => 'bootstrap' }
+
+    # Apply all firewall rules here
+    $firewall_rules = hiera_hash('firewall_rules', {})
+    create_resources ('uib_fw::rules', $firewall_rules)
+
+  }
+
+  # fail2ban with jails
+  if $use_fail2ban == true {
+    class { '::fail2ban': }
+    $jails = hiera_hash('fail2ban_jails', {})
+    create_resources ('fail2ban::jail', $jails, { require => Class['::fail2ban'] })
+  }
+
+  # Set up SSH
+  class { '::ssh': }
+  $sshd_rules = hiera_hash('sshd', {})
+  create_resources('ssh::config::sshd', $sshd_rules)
+
+  # Logrotate rules
+  $logrotate_rules = hiera_hash('logrotate_rules', {})
+  create_resources('logrotate::rule', $logrotate_rules)
+
+}
+```
+
+
+
+Konfigurasjon av webserver
+```
+# == Class: httpd
+#
+# This sets up a simple Apache HTTPD server
+#
+# === Parameters
+#
+# [*replace*]
+#   If this is set to true we replace all config files with puppet,
+#   otherwise we just insure the file is in place
+#
+# [*config_dir*]
+#   Explanation of what this parameter affects and what it defaults to.
+#   e.g. "Specify one or more upstream ntp servers as an array."
+#
+#
+# === Examples
+#
+#  class { 'httpd': }
+#
+# === Authors
+#
+# Raymond Kristiansen <st02221@uib.no>
+#
+# === Copyright
+#
+# Copyright 2013 UiB
+#
+class httpd (
+  $server_admin   = "apache@uib.no",
+  $doc_root       = "/var/www/html",
+  $replace        = true,
+  $server_dns     = $::fqdn,
+  $ssl_keys       = $::fqdn,
+  $config_dir = $::osfamily ? { RedHat => '/etc/httpd/', default => '', },
+  $user = $::osfamily ? { default => 'apache', },
+  $group = $::osfamily ? { default => 'apache', },
+  $ipv6_addr = $::ipaddress6 ? { undef => false, default => $::ipaddress6 },
+  $interface = undef,
+  $service = $::osfamily ? {
+    Debian => 'www-data',
+    RedHat => 'httpd',
+    default => '',
+  },
+  $packages = $::osfamily ? {
+    Debian => 'apache2',
+    RedHat => 'httpd',
+    default => '',
+  },
+  $prefork_settings = {},
+  $listen_ports = { 80 => '' }
+)  {
+
+  validate_hash($listen_ports)
+
+  case $interface {
+    eth0: { $vhost_ip = $::ipaddress_eth0 }
+    eth1: { $vhost_ip = $::ipaddress_eth1 }
+    eth2: { $vhost_ip = $::ipaddress_eth2 }
+    default: {$vhost_ip = $::ipaddress}
+  }
+
+  class { 'httpd::install': } ->
+  class { 'httpd::config': } ->
+  class { 'httpd::service': }
+
+}
+```
+
+
+
+Konfigurasjon av applikasjon
+```
+# == Class: redmine
+#
+# This install and configures Redmine (http://www.redmine.org)
+#
+# === Parameters
+#
+#
+# === Authors
+#
+# Raymond Kristiansen <st02221@uib.no>
+#
+# === Copyright
+#
+# Copyright 2013 UiB
+#
+class redmine(
+  $package = undef,
+  $user = 'redmine',
+  $group = 'redmine',
+  $backend = 'sqlite',
+  $install_dir = '/var/www/redmine',
+  $gemfile = false,
+  $bin_path = "/usr/bin",
+  $files_symlink = false,
+  $email = false,
+  $embedded_path = undef
+) {
+
+  class { 'redmine::install': } ->
+  class { 'redmine::config': }
+
+  if $email {
+    class { 'redmine::email':
+      require => Class['redmine::config']
+    }
+  }
+
+}
+
+# Class redmine install
+class redmine::install(
+  $package = $redmine::package
+) {
+
+  if $package {
+    package { $package:
+      ensure => installed
+    }
+  }
+
+  # Install ImageMagick
+  package { ['ImageMagick', 'ImageMagick-devel']:
+    ensure => installed
+  }
+
+}
+```
+
+
+
+Konfigurasjon av spesifikk server
+```
+---
+classes:
+  - app::web::redmine
+  - motd
+
+authconfig::pam_access: true
+
+redmine::email::host:               'imap.uib.no'
+redmine::email::username:           'rts@uib.no'
+redmine::email::password:           '`cat /var/www/rts/imap`'
+redmine::email::cron:               '*/15'
+
+app::web::redmine::redmine_package: 'rts'
+app::web::redmine::install_dir:     '/var/www/rts/redmine'
+app::web::redmine::files_symlink:   '/var/www/redmine_files'
+```
+
 
 
 #### Fordeler
-- Når man har satt opp en instans er det kjappt å sette opp flere
-- Når man ønsker å endre kan man endre i koden, kjøre i test, og videre i dev.
-Man er da sikker på at det er samme endringen som er gjort både i test og dev.
-- Når man skal oppgradere applikasjoner kan man kjøre opp en ny instans med den
-nye versjonen og bytte fra den gamle til den nye, og så kaste den gamle. Mye bedre
-en å prøve å inplace oppgradere den eksisterende applikasjoner.
-- - Dette kan gi oss mindre / ingen nedetid ved oppgradering av applikasjoner.
+
+- Når man har satt opp en instans er det enkelt å sette opp flere
+- Når man ønsker å endre konfigurasjon kan man endre i koden, rulle ut til test,
+og videre til produksjon.
+- Man er da sikret at det er samme endringen som er gjort både i test og produksjon.
+
+
+
+#### Utrulling av applikasjonen
+
+- Applikasjonen pakkes og distribueres som en pakke (rpm)
+- Alle avhengigheter kan følge med pakken
+- Uavhengig av krumspring fra upstream
+- Full kontroll på kjøremiljøet til applikasjonen
+- Server kan oppdateres uten at kjøremiljøet til applikasjonen blir påvirket
 
 
 
 
-#### Applikasjon
-- Det bestilles og opprettes en postgresql database (manuelt steg)
+#### Oppdatering av applikasjonen
+
+- Utvikleren utvikler, tester og commiter applikasjonen til Git
+- Når det er klart til å rulle ut ny versjon av applikasjonen bygges en ny pakke
+med utgangspunkt i en Git tag eller commit
+- Ny pakke lastes opp til repo og puppet sørger for at den blir installert på de
+aktuelle serverene
+- Når man skal oppgradere applikasjonen kan man ta opp en ny server med den
+nye versjonen og bytte DNS fra eksisterende server til ny, og så kaste den gamle
+- Bedre en å prøve å "inplace" oppgradere den eksisterende applikasjonen
+- Kan gi oss mindre / ingen nedetid ved oppgradering av applikasjoner
 
 
 
-#### Drift
-- Alle er happy
+
+### Hva ønsker vi å gjøre videre?
+
+- Vi ønsker at flere skal jobbe smartere og ta i bruk verktøy fra verktøykassen
+- Automatiserte testing av infrastruktur kode
+- Måling? (hvem kom med dette, og hva mente du?)
+- Automatisert pakking av applikasjoner, f.eks: om en utvikler lager en ny tag i
+Git så pakkes og deployes det en ny versjon av applikasjonen
 
 
 
 #### Sky / CLoud
+
 - UH-Sky
 - IAAS
+
 
 
 #### Spørsmål?
