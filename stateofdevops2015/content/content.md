@@ -63,8 +63,8 @@ dev / test / prod -miljø
 
 Infrastruktur som kode
 
-- Gjør det enklere å implementere dev / test / prod -miljø
-- Gjør konfigurasjonsdata versjonerbare
+- Enklere å implementere dev / test / prod -miljø
+- Konfigurasjonsdata er versjonerbare
 - Versjonerte data gjør det lettere å rulle tilbake endringer
 
 
@@ -101,7 +101,7 @@ Versjonshåndtering
 Konfigurasjonsmanagement med Puppet
 
 - Klientdrift har fungert som en sandkasse for utprøving av konsepter fra ca. 2012
-- Siden 2014 har alle nye servere blitt satt opp med puppet
+- Siden 2014 har alle nye servere blitt satt opp med Puppet
 - RHEL 7 blir brekkstang for å komme videre
 
 
@@ -159,7 +159,7 @@ Kultur og endring av kultur!
 - Hvordan skal en få folk med på laget
 - Hvordan kan en bygge kompetanse
 - Hvordan kan en ta hensyn til at folk har ulik bakgrunn
-- Hvordan ta hensyn til av vi er en offentlig bedrift
+- Hvordan ta hensyn til at vi er en offentlig bedrift
 
 Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 
@@ -175,9 +175,6 @@ Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 - Rhel base med Apache-/Passenger-appstack
 - Selve applikasjonen
 
-
-
-Konfigurasjonsmanagement to the rescue
 
 
 
