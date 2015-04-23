@@ -42,9 +42,9 @@ Alle bruker en felles verktøykasse!
 - Git (versjonshåndtering)
 - Puppet (konfigurasjonsmanagement)
 - Ansible (orkestrering)
-- Jenkins (kontinuerlig integrasjon: bygging, testing, overvåking)
+- Jenkins (kontinuerlig integrasjon: testing, overvåking)
 - Python, Php, Ruby, Bash (programmeringsspråk)
-- Vagrant, Virtualbox, Vmware (virtualisering)
+- Vagrant, Virtualbox, Vmware, Openstack, libvirt (virtualisering)
 
 
 
@@ -56,7 +56,7 @@ dev / test / prod -miljø
 
 - Gjør det enklere å styre endringer
 - ITIL (Endringsprosessen)
-- Fører forhåpentligvis til mer stabilt driftsmiljø
+- Fører til mer stabilt driftsmiljø
 - På klienter, servere, pakker og applikasjoner
 
 
@@ -66,17 +66,15 @@ Infrastruktur som kode
 - Gjør det enklere å implementere dev / test / prod -miljø
 - Gjør konfigurasjonsdata versjonerbare
 - Versjonerte data gjør det lettere å rulle tilbake endringer
-- Kode er lesbart og fungerer som dokumentasjon
-- Tilgjengelig dokumentasjon gjør oss mindre personavhengig
 
 
 
 Deling av informasjon
 
-- Infrastruktur som kode i Git gir "alle" tilgang til å se hvordan ting er skrudd
+- Infrastruktur som kode i Git gir andre tilgang til å se hvordan ting er skrudd
 sammen
-- Om alle dokumenterer og deler oppsett, fremgangsmåter med mer, kan flere
-lære mer, og vi blir mindre personavhengig
+- Målsettingen er at flest mulig dokumenterer oppsett, fremgangsmåter med mer, slik at flere kan
+lære mer. Dette gjør oss også mindre personavhengig.
 
 
 
@@ -95,16 +93,15 @@ Versjonshåndtering
 - Konfigurasjonsendring i henhold til .backup / .old regime
 - Versjonshåndtering via "TSM"
 - Gisle presenterte Git rett etter at han begynte på avdelingen
-- Egen intern gitolite git.uib.no i 200X
+- Egen intern gitolite server git.uib.no i 200X
 - Git workshop i 2009 på IA gruppen
 
 
 
-Konfigurasjonsmanagement
+Konfigurasjonsmanagement med Puppet
 
 - Klientdrift har fungert som en sandkasse for utprøving av konsepter fra ca. 2012
 - Siden 2014 har alle nye servere blitt satt opp med puppet
-- Har "tatt av" siste året
 - RHEL 7 blir brekkstang for å komme videre
 
 
@@ -121,7 +118,7 @@ Kontinuerlig integrasjon
 
 - Unittesting via Jenkins
 - Drar ned kode fra Git til test
-- Kjører Sellenium tester
+- Har testet Selenium, men ikke i aktiv bruk nå
 
 
 
@@ -142,45 +139,50 @@ Kultur og endring av kultur!
 
 
 
-- Krever en "team tankegang" for å lykkes
-- Krever at en jobber / forstår på tvers av etablerte faggrupper
+- Krever en teamtankegang for å lykkes
+- Krever at en jobber og forstår på tvers av etablerte faggrupper
 - Krever at en bryr seg om helheten, det vil si at en må ha holistisk tilnærming til utvikling og infrastruktur!
 - Endring av hvordan folk arbeider
 - Puppet brukes også på applikasjonsdriftsnivå
 
 
 
-#### Hva skal til for at devops skal fungere på en institusjon som UiB IT?
+#### Empati
 
-- En må finne ut hvordan en skal få folk med på laget
-- En må bygge kompetanse der det går an
+- Mellom utviklere og driftere
+- Med de som konsumerer tjenestene
 
-Denne må vi snakke mer om!
+
+
+#### Kan devops fungere i en større offentlig institusjon?
+
+- Hvordan skal en få folk med på laget
+- Hvordan kan en bygge kompetanse
+- Hvordan kan en ta hensyn til at folk har ulik bakgrunn
+- Hvordan ta hensyn til av vi er en offentlig bedrift
 
 Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 
 
 
-#### Eksempel tatt fra virkeligheten
+#### Devops i praksis
 
 
 
-Scenario: Vi vil ha en prosjekt side, og vi vil ha den igår!
+#### Eksempel: Utrulling av en applikasjon
 
-
-
-#### Utrulling av applikasjon i korte trekk
-
-- Provisjoner en ny RHEL server med Puppet og de riktige rollene satt
-- Base RHEL (Standard sikkerhet, tilganger, repoer med mer)
-- Webserver (Apache m/UiB konfigurasjon)
-- Applikasjonskonfigurasjon (denne er kanskje overflødig?)
+- Provisjoner en ny server med Puppet
+- Rhel base med Apache-/Passenger-appstack
 - Selve applikasjonen
 
 
 
 Konfigurasjonsmanagement to the rescue
 
+
+
+#### Provisjonering av server
+![Image Alt](https://www.lucidchart.com/publicSegments/view/55395b6c-2f2c-40a9-88d8-6c960a00d7d7/image.png)
 
 
 Konfigurasjon av server
@@ -231,7 +233,6 @@ class platform::el7() {
       packages          => '',
     }
   }
-
 
   # Packages
   $packages = hiera_hash('packages', {})
@@ -367,7 +368,6 @@ class platform::el7() {
 ```
 
 
-
 Konfigurasjon av webserver
 ```
 # == Class: httpd
@@ -439,7 +439,6 @@ class httpd (
 ```
 
 
-
 Konfigurasjon av applikasjon
 ```
 # == Class: redmine
@@ -501,7 +500,6 @@ class redmine::install(
 ```
 
 
-
 Konfigurasjon av spesifikk server
 ```
 ---
@@ -525,22 +523,25 @@ app::web::redmine::files_symlink:   '/var/www/redmine_files'
 
 #### Fordeler
 
-- Når man har satt opp en instans er det enkelt å sette opp flere
-- Når man ønsker å endre konfigurasjon kan man endre i koden, rulle ut til test,
-og videre til produksjon.
-- Man er da sikret at det er samme endringen som er gjort både i test og produksjon.
+- Provisjoner mye, raskt
+- Serveren har akkurat den tilstanden vi ønsker den skal ha
+- Endringer i tilstanden kan spores i Git og RTS
+- Samme endringen i test og produksjon
 
 
 
 #### Utrulling av applikasjonen
 
+![Image Alt](https://www.lucidchart.com/publicSegments/view/55395146-f988-4aea-96ae-474f0a0052f5/image.png)
+
+
+#### Utrulling av applikasjonen
+
 - Applikasjonen pakkes og distribueres som en pakke (rpm)
-- Alle avhengigheter kan følge med pakken
+- Alle avhengigheter er inkludert i pakken
 - Uavhengig av krumspring fra upstream
 - Full kontroll på kjøremiljøet til applikasjonen
 - Server kan oppdateres uten at kjøremiljøet til applikasjonen blir påvirket
-
-
 
 
 #### Oppdatering av applikasjonen
@@ -562,7 +563,6 @@ nye versjonen og bytte DNS fra eksisterende server til ny, og så kaste den gaml
 
 - Vi ønsker at flere skal jobbe smartere og ta i bruk verktøy fra verktøykassen
 - Automatisert testing av infrastruktur kode
-- Måling? (hvem kom med dette, og hva mente du?)
 - Automatisert pakking av applikasjoner, f.eks: om en utvikler lager en ny tag i
 Git så pakkes og deployes det en ny versjon av applikasjonen
 
@@ -581,6 +581,7 @@ Git så pakkes og deployes det en ny versjon av applikasjonen
 - Devops for oss er å automatisere så mye som mulig
 - Devops for oss er å ha versjonskontroll på så mange elementer som mulig
 - Devops for oss er å ha åpenhet, samt dele så mye som mulig
+- Devops for oss er å ha empati
 
 
 
