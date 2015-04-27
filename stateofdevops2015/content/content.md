@@ -154,17 +154,6 @@ Kultur og endring av kultur!
 
 
 
-#### Kan devops fungere i en større offentlig institusjon?
-
-- Hvordan skal en få folk med på laget
-- Hvordan kan en bygge kompetanse
-- Hvordan kan en ta hensyn til at folk har ulik bakgrunn
-- Hvordan ta hensyn til at vi er en offentlig bedrift
-
-Er det noen som har innspill så diskuterer vi det gjerne senere idag.
-
-
-
 #### Devops i praksis
 
 
@@ -172,7 +161,7 @@ Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 #### Eksempel: Utrulling av en applikasjon
 
 - Provisjoner en ny server med Puppet
-- Rhel base med Apache-/Passenger-appstack
+- RHEL-base med appstack
 - Selve applikasjonen
 
 
@@ -523,7 +512,7 @@ app::web::redmine::files_symlink:   '/var/www/redmine_files'
 - Provisjoner mye, raskt
 - Serveren har akkurat den tilstanden vi ønsker den skal ha
 - Endringer i tilstanden kan spores i Git og RTS
-- Samme endringen i test og produksjon
+- Samme endring i test og produksjon
 
 
 
@@ -562,6 +551,17 @@ nye versjonen og bytte DNS fra eksisterende server til ny, og så kaste den gaml
 - Automatisert testing av infrastruktur kode
 - Automatisert pakking av applikasjoner, f.eks: om en utvikler lager en ny tag i
 Git så pakkes og deployes det en ny versjon av applikasjonen
+
+
+
+#### Kan devops fungere i en større offentlig institusjon?
+
+- Hvordan skal en få folk med på laget
+- Hvordan kan en bygge kompetanse
+- Hvordan kan en ta hensyn til at folk har ulik bakgrunn
+- Hvordan ta hensyn til at vi er en offentlig bedrift
+
+Er det noen som har innspill så diskuterer vi det gjerne senere idag.
 
 
 
